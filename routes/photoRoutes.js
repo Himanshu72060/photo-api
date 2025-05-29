@@ -26,6 +26,15 @@ router.get('/', async (req, res) => {
     res.json(photos);
 });
 
+// Get id 
+router.get('/:id', async (req, res) => {
+    const photo = await Photo.findById(req.params.id);
+    if (!photo) {
+        return res.status(404).json({ message: 'Photo not found' });
+    }
+    res.json(photo);
+});
+
 router.put('/:id', upload.array('images', 3), async (req, res) => {
     const { title } = req.body;
     const imagePaths = req.files.map(file => file.path);
